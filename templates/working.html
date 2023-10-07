@@ -5,18 +5,6 @@
         table, th, td {
           border:1px solid black;
         }
-        .red-bg {
-            background-color: red;
-        }
-        .green-bg {
-            background-color: green;
-        }
-        .yellow-bg {
-            background-color: yellow;
-        }
-        .orange-bg {
-            background-color: orange;
-        }
     </style>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
@@ -37,8 +25,6 @@
           <th>Checkout Time</th>
           <th>Type</th>
           <th>Working Hour</th>
- 
-          <!-- <th>Type</th>-->
           <th>Total Hours</th> 
       </tr>
       {% for staffnamelist,attendenceloginlist,attendencelogoutlist,workinghourlist,workinghourlistall,attype,outtype  in finallist %}
@@ -50,8 +36,6 @@
           <td>{{ attendencelogoutlist }}</td>
           <td>{{ outtype}} </td>
           <td>{{ workinghourlist }}</td>
-    
-          <!-- <td>{{ attype }}</td>-->
           <td>{{workinghourlistall}}</td> 
       </tr>
       {% endfor %}

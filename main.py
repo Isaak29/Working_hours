@@ -5,6 +5,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 import calendar
+import time
 
 config = {
     "apiKey": "AIzaSyCMp8OJqHy8CkWr6AfYZ0DMMi40wKI98VM",
@@ -119,7 +120,6 @@ async def Working_hours(request: Request):
     yesterdayDate = todaysDate - timedelta(days=1)
     formattedYesterdayDate = yesterdayDate.strftime("%Y-%m-%d")
     dates = [formattedYesterdayDate]
-    print("Yesterday's Date List:", dates)
     # dates=["2023-10-06"]
     for date1 in dates:
         dailyworkhours(date1)
@@ -134,7 +134,6 @@ async def Working_hours(request: Request):
     attend = attendance[tyear][tmonth][tday]
     
     for staff in staffDB:
-        print("================",staff)
         if staffDB[staff]['department'] != "ADMIN":
             try:
                 checkin = attend[staff].get("check_in", None)
@@ -142,9 +141,7 @@ async def Working_hours(request: Request):
                 workinghour = attend[staff]["working_hours"]
 
                 try:
-                    if checkin is not None and checkout is not None and workinghour is not None:
-                        print("checkin",checkin)
-                        print("checkout",checkout)       
+                    if checkin is not None and checkout is not None and workinghour is not None:     
                         date_format = "%Y-%m-%d %H:%M:%S"
                         common_date = datetime.now().date()
                         datetime1 = datetime.strptime(str(common_date) + " " + checkin, date_format)
@@ -173,7 +170,6 @@ async def Working_hours(request: Request):
                             outtype.append("Id Card")
 
                     elif checkin is not None and workinghour is not None:
-                        print("checkin",checkin)    
                         date_format = "%Y-%m-%d %H:%M:%S"
                         common_date = datetime.now().date()
                         datetime1 = datetime.strptime(str(common_date) + " " + checkin, date_format)
@@ -255,6 +251,9 @@ async def Working_hours(request: Request):
         "absentcount":absent_staff_count,
         
         })
+
+
+     
 
 @app.get("/user_monthly_attendence")
 async def user_monthly_attendence(request: Request, name: str, month: int):
@@ -395,7 +394,7 @@ async def alluser_monthly_attendence(request: Request, month: int):
                 "total_hours": totalworkinghours
             })
 
-    return {"result": result}
+    return {"result": result} 
 
 if __name__ == "__main__":
     uvicorn.run(app, host="192.168.1.8", port=5001)         
