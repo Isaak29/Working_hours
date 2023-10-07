@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        table, th, td {
+          border:1px solid black;
+        }
+        .red-bg {
+            background-color: red;
+        }
+        .green-bg {
+            background-color: green;
+        }
+        .yellow-bg {
+            background-color: yellow;
+        }
+        .orange-bg {
+            background-color: orange;
+        }
+    </style>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+</head>
+<body>
+    <h1>Total Staff : {{ totalcount }}</h1>
+    <h2>Date : {{ date }}</h2>
+    <h1>Present : {{ presentcount }}</h1>
+    
+  <table style="width:50%">
+      <tr>
+          <th>Names</th>
+          <th>Checkin Time</th>
+          <th>Type</th>
+          <th>Checkout Time</th>
+          <th>Type</th>
+          <th>Working Hour</th>
+ 
+          <!-- <th>Type</th>-->
+          <th>Total Hours</th> 
+      </tr>
+      {% for staffnamelist,attendenceloginlist,attendencelogoutlist,workinghourlist,workinghourlistall,attype,outtype  in finallist %}
+      <tr style="{% if '00:00:00' <= workinghourlist <= '08:59:59' %}background-color: red;{% elif '10:00:00' <= workinghourlist <= '23:59:59' %}background-color: green;{% endif %}">
+         
+        <td>{{ staffnamelist }}</td>
+          <td>{{ attendenceloginlist }}</td>
+          <td>{{ attype }}</td>
+          <td>{{ attendencelogoutlist }}</td>
+          <td>{{ outtype}} </td>
+          <td>{{ workinghourlist }}</td>
+    
+          <!-- <td>{{ attype }}</td>-->
+          <td>{{workinghourlistall}}</td> 
+      </tr>
+      {% endfor %}
+  </table>
+  <br><br>
+  <h1>Absent : {{ absentcount }}</h1>
+  <table style="width:50%">
+    <tr>
+        <th>Names</th>
+        <th>Total Hours</th> 
+    </tr>
+    {% for absentstaff, absentworkinghours  in absenteeslist %}
+        <td>{{ absentstaff }}</td>
+        <td>{{ absentworkinghours }}</td>
+    </tr>
+    {% endfor %}
+</table>
+</body>
+
+</html>
