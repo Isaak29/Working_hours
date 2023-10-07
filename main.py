@@ -397,4 +397,4 @@ async def alluser_monthly_attendence(request: Request, month: int):
     return {"result": result} 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="192.168.1.8", port=5001)         
+    uvicorn.run(app, host="0.0.0.0", port=5001)         
