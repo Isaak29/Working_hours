@@ -45,9 +45,10 @@ async def Absentees():
     absent_uid_list=[] 
     nameList = []    
     for uid in staff_data:
-        if uid not in todays_present_list:
-            absent_uid_list.append(uid)
-            nameList.append(staff_data[uid]['name'])
+        if staff_data[uid]['department'] != "ADMIN":
+            if uid not in todays_present_list:
+                absent_uid_list.append(uid)
+                nameList.append(staff_data[uid]['name'])
     return (f"Today's Absentees = {len(absent_uid_list)}",nameList)
 
 @app.get('/Present_Staff_Name')
@@ -56,7 +57,8 @@ async def Present():
     staff_data = db.child("staff").get().val()  
     nameList = []    
     for uid in todays_present_list:
-        nameList.append(staff_data[uid]['name'])
+        if staff_data[uid]['department'] != "ADMIN":
+            nameList.append(staff_data[uid]['name'])
     return (f"Today's Present Staff = {len(todays_present_list)}",nameList)
 
 def dailyworkhours(date1):
@@ -116,11 +118,11 @@ async def Working_hours(request: Request):
     absentworkinghours=[]
     workinghourlistall=[]
     
-    todaysDate = datetime.today()
-    yesterdayDate = todaysDate - timedelta(days=1)
-    formattedYesterdayDate = yesterdayDate.strftime("%Y-%m-%d")
-    dates = [formattedYesterdayDate]
-    # dates=["2023-10-06"]
+    # todaysDate = datetime.today()
+    # yesterdayDate = todaysDate - timedelta(days=1)
+    # formattedYesterdayDate = yesterdayDate.strftime("%Y-%m-%d")
+    # dates = [formattedYesterdayDate]
+    dates=["2023-10-07"]
     for date1 in dates:
         dailyworkhours(date1)
         date_parts = date1.split("-")
@@ -397,4 +399,4 @@ async def alluser_monthly_attendence(request: Request, month: int):
     return {"result": result} 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=5001)         
+    uvicorn.run(app, host="127.0.0.1", port=5001)         
