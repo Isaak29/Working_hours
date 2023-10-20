@@ -122,7 +122,7 @@ async def Working_hours(request: Request):
     # yesterdayDate = todaysDate - timedelta(days=1)
     # formattedYesterdayDate = yesterdayDate.strftime("%Y-%m-%d")
     # dates = [formattedYesterdayDate]
-    dates=["2023-10-07"]
+    dates=["2023-10-19"]
     for date1 in dates:
         dailyworkhours(date1)
         date_parts = date1.split("-")
