@@ -10,41 +10,56 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Page Title</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.3/xlsx.full.min.js"></script>
 
 </head>
 <body>
-    <a href="/working-hours?export=true" class="btn btn-primary">Export to Excel</a>
-
+    <button onclick="exportToExcel()">Present</button>
+    <!-- <button onclick="exportToExcel1()">Absentees</button> -->
     <h1>Total Staff : {{ totalcount }}</h1>
     <h2>Date : {{ date }}</h2>
     <h1>Present : {{ presentcount }}</h1>
     
-  <table style="width:50%">
-      <tr>
-          <th>Names</th>
-          <th>Checkin Time</th>
-          <th>Type</th>
-          <th>Checkout Time</th>
-          <th>Type</th>
-          <th>Working Hour</th>
-          <th>Total Hours</th> 
-      </tr>
-      {% for staffnamelist,attendenceloginlist,attendencelogoutlist,workinghourlist,workinghourlistall,attype,outtype  in finallist %}
-      <tr style="{% if '00:00:00' <= workinghourlist <= '08:59:59' %}background-color: red;{% elif '10:00:00' <= workinghourlist <= '23:59:59' %}background-color: green;{% endif %}">
-         
-        <td>{{ staffnamelist }}</td>
-          <td>{{ attendenceloginlist }}</td>
-          <td>{{ attype }}</td>
-          <td>{{ attendencelogoutlist }}</td>
-          <td>{{ outtype}} </td>
-          <td>{{ workinghourlist }}</td>
-          <td>{{workinghourlistall}}</td> 
-      </tr>
-      {% endfor %}
-  </table>
-  <br><br>
+    <table style="width:80%" id="container">
+        <tr><td><h1>Date : {{ date }}</h1></td></tr>
+        <tr>
+            <th>Names</th>
+            <th>Checkin Time</th>
+            <th>Type</th>
+            <th>Checkout Time</th>
+            <th>Type</th>
+            <th>Working Hour</th>
+            <th>Total Hours</th>
+        </tr>
+        {% for staffnamelist, attendenceloginlist, attendencelogoutlist, workinghourlist, workinghourlistall, attype, outtype in finallist %}
+        <tr style="{% if '00:00:00' <= workinghourlist <= '08:59:59' %}background-color: red;{% elif '10:00:00' <= workinghourlist <= '23:59:59' %}background-color: green;{% endif %}">
+            <td>{{ staffnamelist }}</td>
+            <td>{{ attendenceloginlist }}</td>
+            <td>{{ attype }}</td>
+            <td>{{ attendencelogoutlist }}</td>
+            <td>{{ outtype }} </td>
+            <td>{{ workinghourlist }}</td>
+            <td>{{ workinghourlistall }}</td>
+        </tr>
+        {% endfor %}
+        <tr><td><h1>Absentees</h1></td></tr>
+        {% for absentstaff, absentworkinghours in absenteeslist %}
+        <tr>
+            <td>{{ absentstaff }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>{{ absentworkinghours }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    
+  <!-- <br><br>
   <h1>Absent : {{ absentcount }}</h1>
-  <table style="width:50%">
+  <table style="width:50%" id="container1">
+    <h2>Date : {{ date }}</h2>
     <tr>
         <th>Names</th>
         <th>Total Hours</th> 
@@ -54,7 +69,26 @@
         <td>{{ absentworkinghours }}</td>
     </tr>
     {% endfor %}
-</table>
+</table> -->
 </body>
+<script>
+    function exportToExcel() {
+        var ws = XLSX.utils.table_to_sheet(document.getElementById("container"));
+        var wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+        /* generate XLSX file and trigger a download */
+        XLSX.writeFile(wb, "October-20.xlsx");
+    }
+    // function exportToExcel1() {
+    //     var ws = XLSX.utils.table_to_sheet(document.getElementById("container1"));
+    //     var wb = XLSX.utils.book_new();
+    //     XLSX.utils.book_append_sheet(wb, ws, "Sheet2");
+
+    //     /* generate XLSX file and trigger a download */
+    //     XLSX.writeFile(wb, "exported_data.xlsx");
+    // }
+</script>
+
 
 </html>

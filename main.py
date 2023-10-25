@@ -118,11 +118,11 @@ async def Working_hours(request: Request):
     absentworkinghours=[]
     workinghourlistall=[]
     
-    # todaysDate = datetime.today()
-    # yesterdayDate = todaysDate - timedelta(days=1)
-    # formattedYesterdayDate = yesterdayDate.strftime("%Y-%m-%d")
-    # dates = [formattedYesterdayDate]
-    dates=["2023-10-19"]
+    todaysDate = datetime.today()
+    yesterdayDate = todaysDate - timedelta(days=1)
+    formattedYesterdayDate = yesterdayDate.strftime("%Y-%m-%d")
+    dates = [formattedYesterdayDate]
+    # dates=["2023-10-21"]
     for date1 in dates:
         dailyworkhours(date1)
         date_parts = date1.split("-")
@@ -399,4 +399,4 @@ async def alluser_monthly_attendence(request: Request, month: int):
     return {"result": result} 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=5001)         
+    uvicorn.run(app, host="127.0.0.1", port=5001)         
